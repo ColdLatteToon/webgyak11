@@ -1,68 +1,62 @@
 document.addEventListener('DOMContentLoaded', function()
 {
     const form = document.getElementById('data-form');
-    const tableBody = document.querySelector('#data-table body');
-    const searchInput  = document.getElementById('search');
+    const tableBody = document.querySelector('#data-table tbody');
+    const searchInput = document.getElementById('search');
+    let data = [];
 
-    let data = []; 
-
-    function validateNev(nev) 
+    function validateNev(nev)
     {
-    if(!nev)
-    {
-        return "A név megadása kötelező!";
-    }
-    if(nev.lenght > 40)
-    {
-        return "A név maximum 40 karakter hosszú lehet";
-    }
-    return "";
+        if (!nev) {
+            return "A név megadása kötelező!";
+        }
+        if (nev.length > 40) {
+            return "A név maximum 40 karakter hosszú lehet";
+        }
+        return "";
     }
 
     function validateNeptun(neptun)
     {
-    if(!neptun)
-    {
-        return "A neptun kód megadása kötelező!";
-    }
-    if(neptun.lenght !==6)
-    {
-        return "A neptun kód 6 karakter hosszú kell, hogy legyen!";
-    }
-    return ""; 
+        if (!neptun) {
+            return "A neptun kód megadása kötelező!";
+        }
+        if (neptun.length !== 6) {
+            return "A neptun kód 6 karakter hosszú kell, hogy legyen!";
+        }
+        return "";
     }
 
-    form.addEventListener('hozzaad', function(esemeny)
+    form.addEventListener('submit', function(esemeny)
     {
         esemeny.preventDefault();
         const nev = document.getElementById('nev').value;
-        const neptun =  document.getElementById('neptun').value;
-        const nevError = document.validateNev(nev);
-        const neptunError = document.validateNeptun(neptun);
+        const neptun = document.getElementById('neptun').value;
+        const nevError = validateNev(nev);
+        const neptunError = validateNeptun(neptun);
 
         document.getElementById('nev-error').textContent = nevError;
         document.getElementById('neptun-error').textContent = neptunError;
 
-        if(nevError || neptunError)
-        {
+        if (nevError || neptunError) {
             return;
         }
 
-        const ujelem = {nev, neptun};
+        const ujelem = { nev, neptun };
         data.push(ujelem);
         updateTable();
-        form.reset();   
-
+        form.reset();
     });
 
     function updateTable()
     {
         tableBody.innerHTML = '';
         const searchTerm = searchInput.value.toLowerCase();
-        const filteredData = data.filter(item.name.toLowerCase().includes(searchTerm) || item.neptun.toLowerCase().includes(searchTerm));
+        const filteredData = data.filter(item =>
+            item.name.toLowerCase().includes(searchTerm) || item.neptun.toLowerCase().includes(searchTerm)
+        );
 
-        filteredData.forEach((entry, index) =>
-        {
+        filteredData.forEach((entry, index) => {
             const sor = document.createElement('tr');
             sor.innerHTML = `
                 <td>${entry.name}</td>
@@ -74,22 +68,22 @@ document.addEventListener('DOMContentLoaded', function()
             `;
             tableBody.appendChild(sor);
         });
+    }
 
-      }
-
-      window.deleteujelem = function(index)
-      {
+    window.deleteujelem = function(index)
+    {
         data.splice(index, 1);
         updateTable();
-      };
+    };
 
-      window.editujelem = function(index) {
+    window.editujelem = function(index)
+    {
         const ujelem = data[index];
         const ujNev = prompt("Új név:", ujelem.name);
         const ujNeptun = prompt("Új Neptun kód:", ujelem.neptun);
 
-        if (newName !== null && ujNeptun !== null) {
-            const nevError = validateName(ujNev);
+        if (ujNev !== null && ujNeptun !== null) {
+            const nevError = validateNev(ujNev);
             const neptunError = validateNeptun(ujNeptun);
 
             if (!nevError && !neptunError) {
@@ -102,7 +96,8 @@ document.addEventListener('DOMContentLoaded', function()
         }
     };
 
-    window.sortTable = function(n) {
+    window.sortTable = function(n)
+    {
         let switching = true;
         while (switching) {
             switching = false;
@@ -126,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function()
         }
     };
 
-    searchInput.addEventListener('bemenet', updateTable);
+    searchInput.addEventListener('input', updateTable);
 
     updateTable();
 })
