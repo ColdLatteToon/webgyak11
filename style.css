@@ -3,8 +3,8 @@ body {
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 200px 1fr; /* Oldalsáv és tartalom */
-    grid-template-rows: auto 50px 1fr auto; /* Fejléc, menü, tartalom, lábléc */
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 50px 1fr auto;
     grid-template-areas:
         "header header"
         "nav nav"
@@ -31,8 +31,8 @@ nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Vízszintes menü */
-    justify-content: center; /* Középre igazítás */
+    display: flex;
+    justify-content: center;
 }
 
 nav li {
