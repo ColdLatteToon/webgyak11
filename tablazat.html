@@ -1,64 +1,27 @@
 <!DOCTYPE html>
-<html lang="hun">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Táblázat</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CRUD Táblázat - Név és Neptun kód</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Web-programozás-1 Előadás Házi feladat - CRUD</h1>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Főoldal</a></li>
-            <li><a href="tablazat.html" class="active"> Táblázat Menü</a></li>
-            <li><a href="html5.html">HTML5 Menü</a></li>
-            <li><a href="chartjs.html">ChartJS Menü</a></li>
-            <li><a href="ajax.html">AJAX Menü</a></li>
-            <li><a href="oojs.html">OOJS Menü</a></li>
-            <li><a href="react.html">React Menü</a></li>
-        </ul>
-    </nav>
-
-    <aside> Táblázat </aside>
-
-    <div class="content">
-        <h2> adatok </h2>
-
-        <from id="data-form">
-            <label for="nev">Név:</label>
-            <input type="text" id="nev" name="nev" required maxlength="40">
-            <span id="nev-error" class="error-szoveg"></span>
-
-            <label for="neptun">Neptun kód:</label>
-            <input type="text" id="neptun" name="neptun" required maxlength="6">
-            <span id="neptun-error" class="error-szoveg"></span>
-
-            <button type="hozzaad">Hozzáadás</button>
-        </from>
-
-        <input type="text" id="search" placeholder="Keresés...">
-
-        <table id="data-table">
-            <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Név</th>
-                        <th onclick="sortTable(1)">Neptun kód</th>
-                        <th>Műveletek</th>
-                    </tr>
-            </thead>
-            <tbody>
-                    
-            </tbody>
-        </table>
-    </div>
-
-    <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
-
-    <script src="tablazat.js"></script>
-    
+    <h2>CRUD Táblázat - Név és Neptun kód</h2>
+    <input type="text" id="search" placeholder="Keresés...">
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Név</th>
+                <th onclick="sortTable(1)">Neptun kód</th>
+                <th>Műveletek</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itt jönnek a táblázat sorai -->
+        </tbody>
+    </table>
+    <button onclick="addRow()">Új sor hozzáadása</button>
+    <script src="table.js"></script>
 </body>
 </html>

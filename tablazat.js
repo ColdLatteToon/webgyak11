@@ -1,127 +1,77 @@
-document.addEventListener('DOMContentLoaded', function()
-{
-    const form = document.getElementById('data-form');
-    const tableBody = document.querySelector('#data-table tbody');
-    const searchInput = document.getElementById('search');
-    let data = [];
+function addRow() {
+    const name = prompt("Add meg a nevet:");
+    const neptun = prompt("Add meg a Neptun kódot:");
 
-    function validateNev(nev)
-    {
-        if (!nev) {
-            return "A név megadása kötelező!";
-        }
-        if (nev.length > 40) {
-            return "A név maximum 40 karakter hosszú lehet";
-        }
-        return "";
+    // Validáció
+    if (!name || !neptun) {
+        alert("Kérlek, töltsd ki az összes mezőt!");
+        return;
+    }
+    if (name.length < 2 || name.length > 30) {
+        alert("A név hossza 2 és 30 karakter között kell legyen!");
+        return;
+    }
+    if (neptun.length !== 6) {
+        alert("A Neptun kódnak 6 karakter hosszúnak kell lennie!");
+        return;
     }
 
-    function validateNeptun(neptun)
-    {
-        if (!neptun) {
-            return "A neptun kód megadása kötelező!";
-        }
-        if (neptun.length !== 6) {
-            return "A neptun kód 6 karakter hosszú kell, hogy legyen!";
-        }
-        return "";
+    const table = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    
+    newRow.insertCell(0).innerHTML = name;
+    newRow.insertCell(1).innerHTML = neptun;
+    newRow.insertCell(2).innerHTML = '<button onclick="deleteRow(this)">Törlés</button> <button onclick="editRow(this)">Szerkesztés</button>';
+}
+
+function deleteRow(button) {
+    const row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+function editRow(button) {
+    const row = button.parentNode.parentNode;
+    const name = row.cells[0].innerHTML;
+    const neptun = row.cells[1].innerHTML;
+
+    const newName = prompt("Add meg a nevet:", name);
+    const newNeptun = prompt("Add meg a Neptun kódot:", neptun);
+
+    // Validáció
+    if (!newName || !newNeptun) {
+        alert("Kérlek, töltsd ki az összes mezőt!");
+        return;
+    }
+    if (newName.length < 2 || newName.length > 30) {
+        alert("A név hossza 2 és 30 karakter között kell legyen!");
+        return;
+    }
+    if (newNeptun.length !== 6) {
+        alert("A Neptun kódnak 6 karakter hosszúnak kell lennie!");
+        return;
     }
 
-    form.addEventListener('submit', function(esemeny)
-    {
-        esemeny.preventDefault();
-        const nev = document.getElementById('nev').value;
-        const neptun = document.getElementById('neptun').value;
-        const nevError = validateNev(nev);
-        const neptunError = validateNeptun(neptun);
+    row.cells[0].innerHTML = newName;
+    row.cells[1].innerHTML = newNeptun;
+}
 
-        document.getElementById('nev-error').textContent = nevError;
-        document.getElementById('neptun-error').textContent = neptunError;
-
-        if (nevError || neptunError) {
-            return;
-        }
-
-        const ujelem = { nev, neptun };
-        data.push(ujelem);
-        updateTable();
-        form.reset();
+function sortTable(columnIndex) {
+    const table = document.getElementById("data-table");
+    const rows = Array.from(table.rows).slice(1);
+    const sortedRows = rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].innerText;
+        const bText = b.cells[columnIndex].innerText;
+        return aText.localeCompare(bText);
     });
+    sortedRows.forEach(row => table.appendChild(row));
+}
 
-    function updateTable()
-    {
-        tableBody.innerHTML = '';
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredData = data.filter(item =>
-            item.name.toLowerCase().includes(searchTerm) || item.neptun.toLowerCase().includes(searchTerm)
-        );
-
-        filteredData.forEach((entry, index) => {
-            const sor = document.createElement('tr');
-            sor.innerHTML = `
-                <td>${entry.name}</td>
-                <td>${entry.neptun}</td>
-                <td>
-                    <button onclick="editujelem(${index})">Szerkesztés</button>
-                    <button onclick="deleteujelem(${index})">Törlés</button>
-                </td>
-            `;
-            tableBody.appendChild(sor);
-        });
-    }
-
-    window.deleteujelem = function(index)
-    {
-        data.splice(index, 1);
-        updateTable();
-    };
-
-    window.editujelem = function(index)
-    {
-        const ujelem = data[index];
-        const ujNev = prompt("Új név:", ujelem.name);
-        const ujNeptun = prompt("Új Neptun kód:", ujelem.neptun);
-
-        if (ujNev !== null && ujNeptun !== null) {
-            const nevError = validateNev(ujNev);
-            const neptunError = validateNeptun(ujNeptun);
-
-            if (!nevError && !neptunError) {
-                ujelem.nev = ujNev;
-                ujelem.neptun = ujNeptun;
-                updateTable();
-            } else {
-                alert("Hibák a bevitt adatokban:\n" + (nevError || "") + "\n" + (neptunError || ""));
-            }
-        }
-    };
-
-    window.sortTable = function(n)
-    {
-        let switching = true;
-        while (switching) {
-            switching = false;
-            let sorok = tableBody.sorok;
-            for (let i = 0; i < (sorok.length - 1); i++) {
-                let shouldSwitch = false;
-                let x = sorok[i].getElementsByTagName("TD")[n];
-                let y = sorok[i + 1].getElementsByTagName("TD")[n];
-                let xValue = x.innerHTML.toLowerCase();
-                let yValue = y.innerHTML.toLowerCase();
-
-                if (xValue > yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            if (shouldSwitch) {
-                sorok[i].parentNode.insertBefore(sorok[i + 1], sorok[i]);
-                switching = true;
-            }
-        }
-    };
-
-    searchInput.addEventListener('input', updateTable);
-
-    updateTable();
-})
+document.getElementById('search').addEventListener('input', function() {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#data-table tbody tr');
+    rows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+        row.style.display = rowText.includes(filter) ? '' : 'none';
+    });
+});
