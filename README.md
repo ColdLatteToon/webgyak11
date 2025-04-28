@@ -1,4 +1,5 @@
 # webgyak11
 
 Neveink: Toon és ダニ
-fdsf
+
+Megcsináltam az első feladatott, belekeztem a másodikba (a táblázatba)
