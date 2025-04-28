@@ -101,4 +101,32 @@ document.addEventListener('DOMContentLoaded', function()
             }
         }
     };
+
+    window.sortTable = function(n) {
+        let switching = true;
+        while (switching) {
+            switching = false;
+            let sorok = tableBody.sorok;
+            for (let i = 0; i < (sorok.length - 1); i++) {
+                let shouldSwitch = false;
+                let x = sorok[i].getElementsByTagName("TD")[n];
+                let y = sorok[i + 1].getElementsByTagName("TD")[n];
+                let xValue = x.innerHTML.toLowerCase();
+                let yValue = y.innerHTML.toLowerCase();
+
+                if (xValue > yValue) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                sorok[i].parentNode.insertBefore(sorok[i + 1], sorok[i]);
+                switching = true;
+            }
+        }
+    };
+
+    searchInput.addEventListener('bemenet', updateTable);
+
+    updateTable();
 })
