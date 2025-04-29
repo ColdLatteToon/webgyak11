@@ -1,77 +1,87 @@
-function addRow() {
-    const name = prompt("Add meg a nevet:");
-    const neptun = prompt("Add meg a Neptun kódot:");
+let records = [];
+let editIndex = null;
 
-    // Validáció
-    if (!name || !neptun) {
-        alert("Kérlek, töltsd ki az összes mezőt!");
-        return;
-    }
-    if (name.length < 2 || name.length > 30) {
-        alert("A név hossza 2 és 30 karakter között kell legyen!");
-        return;
-    }
-    if (neptun.length !== 6) {
-        alert("A Neptun kódnak 6 karakter hosszúnak kell lennie!");
+const form = document.getElementById('recordForm');
+const tableBody = document.querySelector('#dataTable tbody');
+const searchInput = document.getElementById('search');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const age = document.getElementById('neptun').value.trim();
+
+  if (!name || !neptun)
+    {
+        alert('Minden mezőt ki kell tölteni!');
         return;
     }
 
-    const table = document.getElementById('data-table').getElementsByTagName('tbody')[0];
-    const newRow = table.insertRow();
-    
-    newRow.insertCell(0).innerHTML = name;
-    newRow.insertCell(1).innerHTML = neptun;
-    newRow.insertCell(2).innerHTML = '<button onclick="deleteRow(this)">Törlés</button> <button onclick="editRow(this)">Szerkesztés</button>';
+  const record = { name, neptun};
+
+  if (editIndex !== null)
+    {
+        records[editIndex] = record;
+        editIndex = null;
+    }
+    else
+    {
+        records.push(record);
+    }
+
+  form.reset();
+  renderTable();
+});
+
+function renderTable()
+{
+  tableBody.innerHTML = '';
+  const filtered = records.filter(r =>
+    Object.values(r).some(val =>
+      val.toString().toLowerCase().includes(searchInput.value.toLowerCase())
+    )
+  );
+  filtered.forEach((rec, index) => {
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+      <td>${rec.name}</td>
+      <td>${rec.neptun}</td>
+      <td>
+        <button onclick="editRecord(${index})">Szerkeszt</button>
+        <button onclick="deleteRecord(${index})">Törlés</button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
 }
 
-function deleteRow(button) {
-    const row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
+function deleteRecord(index)
+{
+  if (confirm('Biztosan törlöd ezt a rekordot?'))
+    {
+        records.splice(index, 1);
+        renderTable();
+    }
 }
 
-function editRow(button) {
-    const row = button.parentNode.parentNode;
-    const name = row.cells[0].innerHTML;
-    const neptun = row.cells[1].innerHTML;
-
-    const newName = prompt("Add meg a nevet:", name);
-    const newNeptun = prompt("Add meg a Neptun kódot:", neptun);
-
-    // Validáció
-    if (!newName || !newNeptun) {
-        alert("Kérlek, töltsd ki az összes mezőt!");
-        return;
-    }
-    if (newName.length < 2 || newName.length > 30) {
-        alert("A név hossza 2 és 30 karakter között kell legyen!");
-        return;
-    }
-    if (newNeptun.length !== 6) {
-        alert("A Neptun kódnak 6 karakter hosszúnak kell lennie!");
-        return;
-    }
-
-    row.cells[0].innerHTML = newName;
-    row.cells[1].innerHTML = newNeptun;
+function editRecord(index)
+{
+  const rec = records[index];
+  document.getElementById('name').value = rec.name;
+  document.getElementById('neptun').value = rec.neptun;
+  editIndex = index;
 }
 
-function sortTable(columnIndex) {
-    const table = document.getElementById("data-table");
-    const rows = Array.from(table.rows).slice(1);
-    const sortedRows = rows.sort((a, b) => {
-        const aText = a.cells[columnIndex].innerText;
-        const bText = b.cells[columnIndex].innerText;
-        return aText.localeCompare(bText);
-    });
-    sortedRows.forEach(row => table.appendChild(row));
-}
+searchInput.addEventListener('input', renderTable);
 
-document.getElementById('search').addEventListener('input', function() {
-    const filter = this.value.toLowerCase();
-    const rows = document.querySelectorAll('#data-table tbody tr');
-    rows.forEach(row => {
-        const cells = row.getElementsByTagName('td');
-        const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-        row.style.display = rowText.includes(filter) ? '' : 'none';
-    });
+const headers = document.querySelectorAll('#dataTable th[data-column]');
+headers.forEach(header => {
+  header.addEventListener('click', () => {
+    const column = header.dataset.column;
+    records.sort((a, b) =>
+      a[column].toString().localeCompare(b[column].toString(), 'hu', { numeric: true })
+    );
+    renderTable();
+  });
 });
