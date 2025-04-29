@@ -9,7 +9,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const name = document.getElementById('name').value.trim();
-  const age = document.getElementById('neptun').value.trim();
+  const neptun = document.getElementById('neptun').value.trim();
 
   if (!name || !neptun)
     {
