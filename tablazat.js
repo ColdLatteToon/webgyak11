@@ -17,7 +17,7 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-  const record = { name, neptun};
+  const record = { name, neptun: String(neptun) };
 
   if (editIndex !== null)
     {
