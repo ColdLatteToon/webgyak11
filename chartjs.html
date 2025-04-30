@@ -25,8 +25,41 @@
     <aside> oldalsáv</aside>
 
     <div class="content">
-        <h2>Hello ez a Főoldal</h2>
-        <p>tartalom</p>
+        <h2>ChartJs menü</h2>
+        <p>
+        <h3>web storage</h3>
+        <input type="text" id="myText" placeholder="Írj be valamit...">
+  <button onclick="saveData()">Mentés</button>
+  <button onclick="loadData()">Betöltés</button>
+  <p id="output"></p>
+  <script>
+    function saveData() {
+      const text = document.getElementById('myText').value;
+      localStorage.setItem('myTextData', text);
+      document.getElementById('output').textContent = 'Adat elmentve!';
+    }
+    function loadData() {
+      const text = localStorage.getItem('myTextData');
+      if (text) {
+        document.getElementById('output').textContent = 'Betöltött adat: ' + text;
+      } else {
+        document.getElementById('output').textContent = 'Nincs mentett adat.';
+      }
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+        </p>
     </div>
 
     <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
