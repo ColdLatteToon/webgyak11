@@ -26,38 +26,62 @@
 
     <div class="content">
         <h2>HTML5</h2>
-        <h3>web storage</h3>
-        <input type="text" id="myText" placeholder="Írj be valamit...">
-  <button onclick="saveData()">Mentés</button>
-  <button onclick="loadData()">Betöltés</button>
-  <p id="output"></p>
-  <script>
-    function saveData() {
-      const text = document.getElementById('myText').value;
-      localStorage.setItem('myTextData', text);
-      document.getElementById('output').textContent = 'Adat elmentve!';
-    }
-    function loadData() {
-      const text = localStorage.getItem('myTextData');
-      if (text) {
-        document.getElementById('output').textContent = 'Betöltött adat: ' + text;
-      } else {
-        document.getElementById('output').textContent = 'Nincs mentett adat.';
-      }
-    }
-  </script>
+        <p>
+        <h3>Web Storage</h3>
 
+            <input type="text" id="myText" placeholder="Írj be valamit...">
+            <button onclick="saveData()">Mentés</button>
+            <button onclick="loadData()">Betöltés</button>
+             <p id="output"></p>
+        <script>
+            function saveData()
+            {
+            const text = document.getElementById('myText').value;
+            localStorage.setItem('myTextData', text);
+            document.getElementById('output').textContent = 'Adat elmentve!';
+            }
+            function loadData()
+            {
+                const text = localStorage.getItem('myTextData');
+                if (text)
+                {
+                    document.getElementById('output').textContent = 'Betöltött adat: ' + text;
+                }
+                else
+                {
+                document.getElementById('output').textContent = 'Nincs mentett adat.';
+                }
+                }
+        </script>
 
+        <h3>Web Workers</h3>
 
+        <h3>Geolocation API</h3>
+        
+        <p id="location"></p>
+        <script>
+            if (navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(
+                function(position)
+                {
+                document.getElementById('location').textContent =
+                'Szélesség: ' + position.coords.latitude +
+                ', Hosszúság: ' + position.coords.longitude;
+                },
+                function(error)
+                {
+                    document.getElementById('location').textContent = 'Hiba a helymeghatározásban: ' + error.message;
+                });
+            }
+            else
+            {
+                document.getElementById('location').textContent = 'A böngésző nem támogatja a helymeghatározást.';
+            }
+        </script>
+        <h3></h3>
 
-
-
-
-
-
-
-
-
+        </p>
     </div>
 
     <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
