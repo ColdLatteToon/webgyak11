@@ -1,64 +1,55 @@
 <!DOCTYPE html>
-<html lang="hun">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Táblázat</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Táblázat</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="tablazat.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Web-programozás-1 Előadás Házi feladat - CRUD</h1>
-    </header>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Főoldal</a></li>
-            <li><a href="tablazat.html" class="active"> Táblázat Menü</a></li>
-            <li><a href="html5.html">HTML5 Menü</a></li>
-            <li><a href="chartjs.html">ChartJS Menü</a></li>
-            <li><a href="ajax.html">AJAX Menü</a></li>
-            <li><a href="oojs.html">OOJS Menü</a></li>
-            <li><a href="react.html">React Menü</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="index.html">Főoldal</a></li>
+      <li><a href="tablazat.html" class="active">Táblázat</a></li>
+      <li><a href="html5.html">HTML5</a></li>
+      <li><a href="chart.html">ChartJS</a></li>
+      <li><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+      <li><a href="react.html">React</a></li>
+    </ul>
+  </nav>
 
-    <aside> Táblázat </aside>
+  <aside>
+    <p>CRUD Táblázat</p>
+  </aside>
 
-    <div class="content">
-        <h2> adatok </h2>
+  <div id="content">
+    <h2>Táblázat</h2>
+    <form id="recordForm">
+      <input type="text" id="name" placeholder="Név" required maxlength="40">
+      <input type="text" id="neptun" placeholder="Neptun Kód" required maxlength="6" || required minlength="6">
+      <button type="submit">Hozzáadás</button>
+    </form>
 
-        <from id="data-form">
-            <label for="nev">Név:</label>
-            <input type="text" id="nev" name="nev" required maxlength="40">
-            <span id="nev-error" class="error-szoveg"></span>
+    <input type="text" id="search" placeholder="Keresés...">
 
-            <label for="neptun">Neptun kód:</label>
-            <input type="text" id="neptun" name="neptun" required maxlength="6">
-            <span id="neptun-error" class="error-szoveg"></span>
+    <table id="dataTable" border="1">
+      <thead>
+        <tr>
+          <th data-column="name">Név</th>
+          <th data-column="neptun">Neptun Kód</th>
+          <th>Művelet</th>
+        </tr>
+      </thead>
+      <tbody>
 
-            <button type="hozzaad">Hozzáadás</button>
-        </from>
-
-        <input type="text" id="search" placeholder="Keresés...">
-
-        <table id="data-table">
-            <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Név</th>
-                        <th onclick="sortTable(1)">Neptun kód</th>
-                        <th>Műveletek</th>
-                    </tr>
-            </thead>
-            <tbody>
-                    
-            </tbody>
-        </table>
-    </div>
-
+      </tbody>
+    </table>
+  </div>
     <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
-
-    <script src="tablazat.js"></script>
-    
 </body>
 </html>

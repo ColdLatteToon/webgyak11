@@ -1,127 +1,87 @@
-document.addEventListener('DOMContentLoaded', function()
+let records = [];
+let editIndex = null;
+
+const form = document.getElementById('recordForm');
+const tableBody = document.querySelector('#dataTable tbody');
+const searchInput = document.getElementById('search');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const neptun = document.getElementById('neptun').value.trim();
+
+  if (!name || !neptun)
+    {
+        alert('Minden mezőt ki kell tölteni!');
+        return;
+    }
+
+  const record = { name, neptun: String(neptun) };
+
+  if (editIndex !== null)
+    {
+        records[editIndex] = record;
+        editIndex = null;
+    }
+    else
+    {
+        records.push(record);
+    }
+
+  form.reset();
+  renderTable();
+});
+
+function renderTable()
 {
-    const form = document.getElementById('data-form');
-    const tableBody = document.querySelector('#data-table tbody');
-    const searchInput = document.getElementById('search');
-    let data = [];
+  tableBody.innerHTML = '';
+  const filtered = records.filter(r =>
+    Object.values(r).some(val =>
+      val.toString().toLowerCase().includes(searchInput.value.toLowerCase())
+    )
+  );
+  filtered.forEach((rec, index) => {
+    const row = document.createElement('tr');
 
-    function validateNev(nev)
+    row.innerHTML = `
+      <td>${rec.name}</td>
+      <td>${rec.neptun}</td>
+      <td>
+        <button onclick="editRecord(${index})">Szerkeszt</button>
+        <button onclick="deleteRecord(${index})">Törlés</button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+function deleteRecord(index)
+{
+  if (confirm('Biztosan törlöd ezt a rekordot?'))
     {
-        if (!nev) {
-            return "A név megadása kötelező!";
-        }
-        if (nev.length > 40) {
-            return "A név maximum 40 karakter hosszú lehet";
-        }
-        return "";
+        records.splice(index, 1);
+        renderTable();
     }
+}
 
-    function validateNeptun(neptun)
-    {
-        if (!neptun) {
-            return "A neptun kód megadása kötelező!";
-        }
-        if (neptun.length !== 6) {
-            return "A neptun kód 6 karakter hosszú kell, hogy legyen!";
-        }
-        return "";
-    }
+function editRecord(index)
+{
+  const rec = records[index];
+  document.getElementById('name').value = rec.name;
+  document.getElementById('neptun').value = rec.neptun;
+  editIndex = index;
+}
 
-    form.addEventListener('submit', function(esemeny)
-    {
-        esemeny.preventDefault();
-        const nev = document.getElementById('nev').value;
-        const neptun = document.getElementById('neptun').value;
-        const nevError = validateNev(nev);
-        const neptunError = validateNeptun(neptun);
+searchInput.addEventListener('input', renderTable);
 
-        document.getElementById('nev-error').textContent = nevError;
-        document.getElementById('neptun-error').textContent = neptunError;
-
-        if (nevError || neptunError) {
-            return;
-        }
-
-        const ujelem = { nev, neptun };
-        data.push(ujelem);
-        updateTable();
-        form.reset();
-    });
-
-    function updateTable()
-    {
-        tableBody.innerHTML = '';
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredData = data.filter(item =>
-            item.name.toLowerCase().includes(searchTerm) || item.neptun.toLowerCase().includes(searchTerm)
-        );
-
-        filteredData.forEach((entry, index) => {
-            const sor = document.createElement('tr');
-            sor.innerHTML = `
-                <td>${entry.name}</td>
-                <td>${entry.neptun}</td>
-                <td>
-                    <button onclick="editujelem(${index})">Szerkesztés</button>
-                    <button onclick="deleteujelem(${index})">Törlés</button>
-                </td>
-            `;
-            tableBody.appendChild(sor);
-        });
-    }
-
-    window.deleteujelem = function(index)
-    {
-        data.splice(index, 1);
-        updateTable();
-    };
-
-    window.editujelem = function(index)
-    {
-        const ujelem = data[index];
-        const ujNev = prompt("Új név:", ujelem.name);
-        const ujNeptun = prompt("Új Neptun kód:", ujelem.neptun);
-
-        if (ujNev !== null && ujNeptun !== null) {
-            const nevError = validateNev(ujNev);
-            const neptunError = validateNeptun(ujNeptun);
-
-            if (!nevError && !neptunError) {
-                ujelem.nev = ujNev;
-                ujelem.neptun = ujNeptun;
-                updateTable();
-            } else {
-                alert("Hibák a bevitt adatokban:\n" + (nevError || "") + "\n" + (neptunError || ""));
-            }
-        }
-    };
-
-    window.sortTable = function(n)
-    {
-        let switching = true;
-        while (switching) {
-            switching = false;
-            let sorok = tableBody.sorok;
-            for (let i = 0; i < (sorok.length - 1); i++) {
-                let shouldSwitch = false;
-                let x = sorok[i].getElementsByTagName("TD")[n];
-                let y = sorok[i + 1].getElementsByTagName("TD")[n];
-                let xValue = x.innerHTML.toLowerCase();
-                let yValue = y.innerHTML.toLowerCase();
-
-                if (xValue > yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            if (shouldSwitch) {
-                sorok[i].parentNode.insertBefore(sorok[i + 1], sorok[i]);
-                switching = true;
-            }
-        }
-    };
-
-    searchInput.addEventListener('input', updateTable);
-
-    updateTable();
-})
+const headers = document.querySelectorAll('#dataTable th[data-column]');
+headers.forEach(header => {
+  header.addEventListener('click', () => {
+    const column = header.dataset.column;
+    records.sort((a, b) =>
+      a[column].toString().localeCompare(b[column].toString(), 'hu', { numeric: true })
+    );
+    renderTable();
+  });
+});
