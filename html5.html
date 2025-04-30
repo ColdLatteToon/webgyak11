@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Web-programozás-1 Előadás Házi feladat </title>
+    <link rel="stylesheet" href="style.ccs">
+</head>
+<body>
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="tablazat.html">Táblázat Menü</a></li>
+            <li><a href="html5.html" class="active">HTML5 Menü</a></li>
+            <li><a href="chartjs.html">ChartJS Menü</a></li>
+            <li><a href="ajax.html">AJAX Menü</a></li>
+            <li><a href="oojs.html">OOJS Menü</a></li>
+            <li><a href="react.html">React Menü</a></li>
+        </ul>
+    </nav>
+
+    <aside> oldalsáv</aside>
+
+    <div class="content">
+        <h2>HTML5</h2>
+        <h3>web storage</h3>
+        <input type="text" id="myText" placeholder="Írj be valamit...">
+  <button onclick="saveData()">Mentés</button>
+  <button onclick="loadData()">Betöltés</button>
+  <p id="output"></p>
+  <script>
+    function saveData() {
+      const text = document.getElementById('myText').value;
+      localStorage.setItem('myTextData', text);
+      document.getElementById('output').textContent = 'Adat elmentve!';
+    }
+    function loadData() {
+      const text = localStorage.getItem('myTextData');
+      if (text) {
+        document.getElementById('output').textContent = 'Betöltött adat: ' + text;
+      } else {
+        document.getElementById('output').textContent = 'Nincs mentett adat.';
+      }
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
+
+    <script scr="script.js"></script>
+
+</body>
+</html>
