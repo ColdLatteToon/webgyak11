@@ -26,7 +26,33 @@
 
     <div class="content">
         <h2>HTML5</h2>
-        <p>tartalom</p>
+        <p>
+        <h3>Web Storage</h3>
+            <input type="text" id="myText" placeholder="Írj be valamit...">
+            <button onclick="saveData()">Mentés</button>
+            <button onclick="loadData()">Betöltés</button>
+             <p id="output"></p>
+        <script>
+            function saveData()
+            {
+            const text = document.getElementById('myText').value;
+            localStorage.setItem('myTextData', text);
+            document.getElementById('output').textContent = 'Adat elmentve!';
+            }
+            function loadData()
+            {
+                const text = localStorage.getItem('myTextData');
+                if (text)
+                {
+                    document.getElementById('output').textContent = 'Betöltött adat: ' + text;
+                }
+                else
+                {
+                document.getElementById('output').textContent = 'Nincs mentett adat.';
+                }
+                }
+        </script>
+        </p>
     </div>
 
     <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
