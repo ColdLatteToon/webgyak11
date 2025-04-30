@@ -59,22 +59,67 @@
         <h3>Geolocation API</h3>
         
         <p id="location"></p>
-  <script>
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          document.getElementById('location').textContent =
-            'Szélesség: ' + position.coords.latitude +
-            ', Hosszúság: ' + position.coords.longitude;
-        },
-        function(error) {
+        <script>
+        if (navigator.geolocation)
+        {
+          navigator.geolocation.getCurrentPosition(
+          function(position)
+          {
+            document.getElementById('location').textContent =
+              'Szélesség: ' + position.coords.latitude +
+              ', Hosszúság: ' + position.coords.longitude;
+          },
+        function(error)
+        {
           document.getElementById('location').textContent = 'Hiba a helymeghatározásban: ' + error.message;
+        });
         }
-      );
-    } else {
-      document.getElementById('location').textContent = 'A böngésző nem támogatja a helymeghatározást.';
-    }
-  </script>
+        else
+        {
+          document.getElementById('location').textContent = 'A böngésző nem támogatja a helymeghatározást.';
+        }
+        </script>
+        <h3>Drag and Drop API</h3>
+
+        <style>
+          #dragTarget {
+            width: 200px;
+            height: 100px;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 10px;
+          }
+          #draggable {
+            width: 100px;
+            height: 50px;
+            background-color: lightblue;
+            padding: 10px;
+            cursor: move;
+          }
+        </style>
+
+          <div id="draggable" draggable="true">Fogd és vidd!</div>
+          <div id="dragTarget">Hova dobhatod?</div>
+          <script>
+            const draggable = document.getElementById('draggable');
+            const dragTarget = document.getElementById('dragTarget');
+            draggable.addEventListener('dragstart', function(event)
+            {
+              event.dataTransfer.setData('text/plain', event.target.id);
+            });
+            dragTarget.addEventListener('dragover', function(event)
+            {
+              event.preventDefault();
+            });
+            dragTarget.addEventListener('drop', function(event)
+            {
+              event.preventDefault();
+              const id = event.dataTransfer.getData('text/plain');
+              const element = document.getElementById(id);
+              dragTarget.appendChild(element);
+            });
+            
+          </script>
 
         </p>
     </div>
