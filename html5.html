@@ -28,6 +28,7 @@
         <h2>HTML5</h2>
         <p>
         <h3>Web Storage</h3>
+
             <input type="text" id="myText" placeholder="Írj be valamit...">
             <button onclick="saveData()">Mentés</button>
             <button onclick="loadData()">Betöltés</button>
@@ -52,6 +53,29 @@
                 }
                 }
         </script>
+
+        <h3>Web Workers</h3>
+
+        <h3>Geolocation API</h3>
+        
+        <p id="location"></p>
+  <script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          document.getElementById('location').textContent =
+            'Szélesség: ' + position.coords.latitude +
+            ', Hosszúság: ' + position.coords.longitude;
+        },
+        function(error) {
+          document.getElementById('location').textContent = 'Hiba a helymeghatározásban: ' + error.message;
+        }
+      );
+    } else {
+      document.getElementById('location').textContent = 'A böngésző nem támogatja a helymeghatározást.';
+    }
+  </script>
+
         </p>
     </div>
 
