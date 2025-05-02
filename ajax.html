@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Web-programozás-1 Előadás Házi feladat </title>
-    <link rel="stylesheet" href="style.ccs">
+  <meta charset="UTF-8">
+  <title>Táblázat</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="tablazat.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Web-programozás-1 Előadás Házi feladat</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="index.html" >Főoldal</a></li>
-            <li><a href="tablazat.html">Táblázat Menü</a></li>
-            <li><a href="html5.html">HTML5 Menü</a></li>
-            <li><a href="chartjs.html" >ChartJS Menü</a></li>
-            <li><a href="ajax.html" class="active">AJAX Menü</a></li>
-            <li><a href="oojs.html">OOJS Menü</a></li>
-            <li><a href="react.html">React Menü</a></li>
-        </ul>
-    </nav>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
 
-    <aside> oldalsáv</aside>
+  <nav>
+    <ul>
+      <li><a href="index.html">Főoldal</a></li>
+      <li><a href="tablazat.html" class="active">Táblázat</a></li>
+      <li><a href="html5.html">HTML5</a></li>
+      <li><a href="chart.html">ChartJS</a></li>
+      <li><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+      <li><a href="react.html">React</a></li>
+    </ul>
+  </nav>
 
-    <div class="content">
-        <h2>Hello ez a Főoldal</h2>
-        <p>tartalom</p>
-    </div>
+    <h1>AJAX adatkezelés</h1>
 
-    <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
+    <h2>Create / Új adat hozzáadása</h2>
+    <input type="text" id="create_code" placeholder="Kód">
+    <input type="text" id="create_height" placeholder="Height">
+    <button onclick="createData()">Létrehozás</button>
+    <div id="create_msg"></div>
 
-    <script scr="script.js"></script>
+    <h2>Read / Adatok lekérdezése</h2>
+    <button onclick="readData()">Adatok lekérése</button>
+    <div class="output" id="read_output"></div>
+
+    <h2>Update / Módosítás</h2>
+    <input type="text" id="update_id" placeholder="ID">
+    <button onclick="getDataForId()">Adat lekérése ID alapján</button><br>
+    <input type="text" id="update_code" placeholder="Új kód">
+    <input type="text" id="update_height" placeholder="Új height">
+    <button onclick="updateData()">Frissítés</button>
+    <div id="update_msg"></div>
+
+    <h2>Delete</h2>
+    <input type="text" id="delete_id" placeholder="ID törléshez">
+    <button onclick="deleteData()">Törlés</button>
+    <div id="delete_msg"></div>
 
 </body>
 </html>
