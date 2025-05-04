@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <title> Web-programozás-1 Előadás Házi feladat </title>
     <link rel="stylesheet" href="style.css">
+	<style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    nav {
+      margin-bottom: 20px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
     <header>
@@ -26,12 +44,34 @@
 
     <div class="content">
         <h2>Hello ez a React</h2>
-        <p>játékok</p>
-    </div>
+        <p>Kő-Papír-Olló és To-do</p>
+		<nav>
+			<button onclick="loadApp('rps')">Kő-Papír-Olló</button>
+			<button onclick="loadApp('todo')">To-do Lista</button>
+		</nav>
+		<div id="root"></div>
+		<script>
+			function loadApp(appName)
+			{
+			const root = document.getElementById('root');
+			root.innerHTML = '';
+			const existingScript = document.getElementById('dynamic-script');
+			if (existingScript)
+			{
+				document.body.removeChild(existingScript);
+			}
+			const script = document.createElement('script');
+			script.type = 'text/babel';
+			script.src = `${appName}/app.js`;
+			script.id = 'dynamic-script';
+			document.body.appendChild(script);
+			}
+		</script>
+	</div>
 
     <footer>&copy; Csizik Dávid IVHVX8, Sorbán György Dániel E4HVFH </footer>
 
-    <script scr="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
