@@ -1,15 +1,14 @@
 const table = document.getElementById('data-table').getElementsByTagName('tbody')[0];
 
-// Táblázat feltöltése 5x5 véletlen számokkal
 for (let i = 0; i < 5; i++) {
   const row = table.insertRow();
   for (let j = 0; j < 5; j++) {
     const cell = row.insertCell();
-    cell.textContent = Math.floor(Math.random() * 100); // 0-99 közötti szám
+    cell.contentEditable = true;
+    cell.textContent = ""; 
   }
 }
 
-// Diagram inicializálása
 const ctx = document.getElementById('lineChart').getContext('2d');
 let chart = new Chart(ctx, {
   type: 'line',
@@ -33,10 +32,12 @@ let chart = new Chart(ctx, {
   }
 });
 
-// Sorokra kattintás kezelése és a diagram frissítése
-Array.from(table.rows).forEach((row, rowIndex) => {
+Array.from(table.rows).forEach((row) => {
   row.addEventListener('click', () => {
-    const values = Array.from(row.cells).map(cell => Number(cell.textContent));
+    const values = Array.from(row.cells).map(cell => {
+      const val = Number(cell.textContent.trim());
+      return isNaN(val) ? 0 : val;
+    });
     chart.data.datasets[0].data = values;
     chart.update();
   });
